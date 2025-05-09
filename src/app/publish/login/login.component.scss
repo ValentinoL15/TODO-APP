@@ -1,0 +1,44 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.image-login {
+  width: 100%;
+  height: auto;
+  max-width: 400px; 
+  margin-bottom: 20px; 
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px; 
+  padding: 20px; 
+}
+
+.forgot-password {
+  text-align: end;
+  transition: margin 0.2s ease;
+}
+
+.margin-error {
+  margin-top: 20px;
+}
+
+.button-enter{
+  width: 230px;
+  margin-bottom: 10px;
+}
+
+

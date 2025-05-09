@@ -1,0 +1,40 @@
+<div class="container login">
+  <mat-card class="card">
+    <mat-card-header class="header">
+      <mat-card-title style="color: black;">TODO APP</mat-card-title>
+      <mat-card-subtitle>App for Tasks</mat-card-subtitle>
+    </mat-card-header>
+    <img class="image-login" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <form class="form-login">
+        <mat-form-field>
+          <mat-label>Ingrese un email</mat-label>
+          <input matInput placeholder="Example123@gmail.com" [formControl]="email" (blur)="updateErrorMessage()"
+            required />
+          @if (errorMessage()) {
+          <mat-error>{{errorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Ingrese su contraseña</mat-label>
+          <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="password"
+            (blur)="updateErrorMessagePassword()" required />
+          @if (errorMessagePassword()) {
+          <mat-error>{{errorMessagePassword()}}</mat-error>
+          }
+          <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()">
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <p class="forgot-password" [ngClass]="{ 'margin-error': password.invalid && password.touched }" style="color: black;">¿Olvidaste tu
+          contraseña?</p>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button class="button-enter" type="submit" (click)="ingresar()">Ingresar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
