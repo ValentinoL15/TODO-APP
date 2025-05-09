@@ -1,1 +1,66 @@
-<p>task-form works!</p>
+<form class="task-form" [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Titulo</mat-label>
+    <input
+      matInput
+      required
+      formControlName="title"
+      name="title"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Descripción (Opcional)</mat-label>
+    <textarea matInput formControlName="description" name="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Prioridad</mat-label>
+    <mat-select formControlName="priority" name="priority">
+      <mat-option value="Baja">
+        <span class="priority-indicator low"></span> Baja
+      </mat-option>
+      <mat-option value="Media">
+        <span class="priority-indicator medium"></span> Media
+      </mat-option>
+      <mat-option value="Alta">
+        <span class="priority-indicator high"></span> Alta
+      </mat-option>
+      <mat-option value="Crítica">
+        <span class="priority-indicator critical"></span> Crítica
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list">
+    <mat-label>Etiquetas Personalizables</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Enter fruits">
+      @for (fruit of fruits(); track fruit) {
+        <mat-chip-row
+          (removed)="remove(fruit)"
+          [editable]="true"
+          (edited)="edit(fruit, $event)"
+          [aria-description]="'press enter to edit ' + fruit.name"
+        >
+          {{fruit.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+      <input
+        placeholder="Agregar Etiqueta"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)"
+        formControlName="labels"
+        name="labels"
+      />
+    </mat-chip-grid>
+  </mat-form-field>
+
+  <div class="button-task">
+    <button mat-raised-button [disabled]="true" >Crear Tarea</button>
+  </div>
+</form>

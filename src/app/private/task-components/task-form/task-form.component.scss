@@ -1,0 +1,44 @@
+.task-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.priority-indicator {  /* Indicador de prioridad */
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%; 
+  margin-right: 8px; 
+  vertical-align: middle;
+}
+
+.low {
+  background-color: green; /* Círculo verde para Baja */
+}
+
+.medium {
+  background-color: yellow; /* Círculo amarillo para Media */
+}
+
+.high {
+  background-color: orange; /* Círculo naranja para Alta */
+}
+
+.critical {
+  background-color: red; /* Círculo rojo para Crítica */
+}
+
+.button-task {
+  display: flex;
+  justify-content: end;
+}
+
+.green-button {
+  background-color: #4caf50; /* Verde Material */
+  color: white;
+
+  &:hover {
+    background-color: #43a047; /* Verde un poco más oscuro */
+  }
+}

@@ -4,12 +4,12 @@
       <mat-icon>assignment</mat-icon>
       <span class="title">TODO APP</span>
     </div>
-    
-    
     <mat-icon class="go-out-button" mat-button routerLink="/login" >logout</mat-icon>
   </mat-toolbar>
 </header>
 
 <section class="container">
-  
+  <mat-card-actions class="add-task">
+    <button mat-flat-button (click)="openDialog()"> <mat-icon>add</mat-icon> Agregar Tarea</button>
+  </mat-card-actions>
 </section>
