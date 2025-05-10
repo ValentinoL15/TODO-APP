@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject, inject, OnInit, signal } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import {MatIconModule} from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from '../task.service';
@@ -16,14 +16,14 @@ import { getTasksInitiate } from '../../states/task.actions';
 
 @Component({
   selector: 'app-task-form',
-  imports: [MatInputModule, MatFormFieldModule,MatSelectModule,MatSelectModule,MatChipsModule,MatIconModule,MatButtonModule,ReactiveFormsModule, FormsModule],
+  imports: [MatInputModule, MatFormFieldModule, MatSelectModule, MatSelectModule, MatChipsModule, MatIconModule, MatButtonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class TaskFormComponent{
+export class TaskFormComponent {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly labels = signal<any[]>([]);
 
@@ -34,13 +34,14 @@ export class TaskFormComponent{
   readonly dialogRef = inject(MatDialogRef<TaskFormComponent>);
   readonly toastr = inject(ToastrService)
   readonly state = inject(Store)
-  
+
   //VARIABLES
   form: FormGroup
   readonly addOnBlur = true;
   isEditMode: boolean = false;
+  formSubmitted : boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data : any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.isEditMode = !!this.data && !!this.data._id;
 
     this.form = this.fb.group({
@@ -48,19 +49,17 @@ export class TaskFormComponent{
       description: [data.description || ''],
       priority: [data.priority || '', Validators.required],
       labels: [data.labels || []],
-      state: [data.state || 'Nueva'], 
+      state: [data.state || 'Nueva'],
     });
 
     // Cargar etiquetas iniciales
     if (data.labels) {
       this.labels.set(this.data.labels);
     }
-    
+
   }
 
- 
-
- add(event: MatChipInputEvent): void {
+  add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
       this.labels.update((labels) => [...labels, { name: value }]);
@@ -94,6 +93,9 @@ export class TaskFormComponent{
       state: this.form.get('state')?.value,
       labels: this.labels()
     }
+    
+    this.formSubmitted = true;
+    
     if (this.form.valid) {
       this.taskService.createTask(formulario).subscribe({
         next: (res: any) => {
@@ -108,5 +110,9 @@ export class TaskFormComponent{
         }
       })
     }
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 }

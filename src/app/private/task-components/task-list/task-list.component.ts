@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { TaskService } from '../task.service';
 import { Task } from '../../../interfaces';
 import { ToastrService } from 'ngx-toastr';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule, NgClass } from '@angular/common';
-import { MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { Store } from '@ngrx/store';
+import { ConfirmDialogComponent } from '../../../../utils/dialog.component';
+import { getTasksInitiate } from '../../states/task.actions';
 
 @Component({
   selector: 'app-task-list',
@@ -31,34 +33,52 @@ export class TaskListComponent {
 
   constructor() { }
 
- 
+  openDeleteDialog(id:any) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: { message: '¿Estás seguro de que deseas eliminar esta tarjeta?' }
+  });
 
-  getTasks(){
-    this.taskService.getTasks().subscribe({ 
-      next: (res : any) => {
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.taskService.deleteTask(id).subscribe({
+        next: (res : any) => {
+          this.toastr.success(res.message)
+          this.store.dispatch(getTasksInitiate())
+        },
+        error: (err : any) => {
+          this.toastr.error(err.message, 'Error')
+        }
+
+      })
+    }
+  });
+}
+
+  getTasks() {
+    this.taskService.getTasks().subscribe({
+      next: (res: any) => {
         this.tasks = res.tasks
         this.cdr.detectChanges()
-        console.log(this.tasks)
       },
-      error: (err : any) => {
+      error: (err: any) => {
         this.toastr.error(err.message, 'Error')
       }
     })
   }
 
   onEdit(task: any) {
-     console.log('Tarea enviada al editar:', task);
-  this.editTask.emit(task);
-}
+    console.log('Tarea enviada al editar:', task);
+    this.editTask.emit(task);
+  }
 
   openEditDialog(task: any): void {
-    
+
     const dialogRef = this.dialog.open(TaskFormComponent, {
       width: '500px',
-      data:task,
+      data: task,
     });
 
-   dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         //this.store.dispatch(updateTaskInitiate({ task: result }));
       }

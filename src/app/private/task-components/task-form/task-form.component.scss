@@ -31,7 +31,16 @@
 
 .button-task {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+}
+
+.btn-verde {
+  background-color: #d61c1c;
+  color: white;
+
+  &:hover {
+    background-color: #ec3d3d;
+  }
 }
 
 .green-button {

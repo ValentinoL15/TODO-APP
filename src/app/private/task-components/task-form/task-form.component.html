@@ -7,7 +7,7 @@
       formControlName="title"
       name="title"
     />
-    @if(!this.form.get('title')?.valid && this.form.get('title')?.touched) {
+    @if(formSubmitted && !this.form.get('title')?.valid && this.form.get('title')?.touched) {
     <div class="custom-error">
       <mat-icon class="error-icon">error_outline</mat-icon>
       <span>El título es obligatorio</span>
@@ -72,7 +72,10 @@
   </mat-form-field>
 
   <div class="button-task">
-    <button mat-raised-button (click)="sendForm()">
+    <button mat-raised-button class="btn-verde" (click)="cancel()">
+      Cancelar
+    </button>
+    <button mat-flat-button (click)="sendForm()">
       {{ isEditMode ? 'Actualizar Tarea' : 'Crear Tarea' }}
     </button>
   </div>
