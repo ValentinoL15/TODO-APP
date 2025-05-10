@@ -1,13 +1,68 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task } from '../../../interfaces';
+import { ToastrService } from 'ngx-toastr';
+import {MatCardModule} from '@angular/material/card';
+import { CommonModule, NgClass } from '@angular/common';
+import { MatIconModule} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskFormComponent } from '../task-form/task-form.component';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-task-list',
-  imports: [],
+  imports: [MatCardModule, NgClass, CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent {
-  
+  @Input() tasks: Task[] = [];
+  @Output() editTask = new EventEmitter<any>();
+
+  //INJECTS
+  readonly taskService = inject(TaskService);
+  readonly toastr = inject(ToastrService)
+  readonly cdr = inject(ChangeDetectorRef);
+  readonly dialog = inject(MatDialog)
+  readonly store = inject(Store)
+
+  constructor() { }
+
+ 
+
+  getTasks(){
+    this.taskService.getTasks().subscribe({ 
+      next: (res : any) => {
+        this.tasks = res.tasks
+        this.cdr.detectChanges()
+        console.log(this.tasks)
+      },
+      error: (err : any) => {
+        this.toastr.error(err.message, 'Error')
+      }
+    })
+  }
+
+  onEdit(task: any) {
+     console.log('Tarea enviada al editar:', task);
+  this.editTask.emit(task);
+}
+
+  openEditDialog(task: any): void {
+    
+    const dialogRef = this.dialog.open(TaskFormComponent, {
+      width: '500px',
+      data:task,
+    });
+
+   dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        //this.store.dispatch(updateTaskInitiate({ task: result }));
+      }
+    });
+  }
+
 }

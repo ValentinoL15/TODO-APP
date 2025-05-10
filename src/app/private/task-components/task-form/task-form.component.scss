@@ -42,3 +42,54 @@
     background-color: #43a047; /* Verde un poco más oscuro */
   }
 }
+
+.custom-error {
+  display: flex;
+  align-items: center;
+  gap: 8px; // Espacio entre el ícono y el texto
+  background-color: #f8d7da; // Fondo rojo suave
+  color: #721c24; // Texto rojo oscuro
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra ligera
+  opacity: 0;
+  transform: translateY(-10px); // Empieza ligeramente arriba
+  animation: fadeIn 0.3s ease-out forwards; // Animación de entrada
+}
+
+// Ícono del error
+.error-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #721c24; // Color del ícono igual al texto
+}
+
+// Animación de entrada
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Ajuste para que el input con error tenga un borde rojo
+.mat-form-field.invalid .mat-form-field-outline {
+  border-color: #721c24 !important; // Borde rojo para el campo con error
+}
+
+// Responsividad
+@media (max-width: 600px) {
+  .custom-error {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .error-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}

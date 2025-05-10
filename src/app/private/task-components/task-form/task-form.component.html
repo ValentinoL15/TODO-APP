@@ -7,6 +7,12 @@
       formControlName="title"
       name="title"
     />
+    @if(!this.form.get('title')?.valid && this.form.get('title')?.touched) {
+    <div class="custom-error">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <span>El título es obligatorio</span>
+    </div>
+  }
   </mat-form-field>
 
   <mat-form-field>
@@ -30,20 +36,26 @@
         <span class="priority-indicator critical"></span> Crítica
       </mat-option>
     </mat-select>
+    @if(!this.form.get('priority')?.valid && this.form.get('priority')?.touched) {
+      <div class="custom-error">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <span>La prioridad es obligatoria</span>
+      </div>
+    }
   </mat-form-field>
 
   <mat-form-field class="example-chip-list">
     <mat-label>Etiquetas Personalizables</mat-label>
-    <mat-chip-grid #chipGrid aria-label="Enter fruits">
-      @for (fruit of fruits(); track fruit) {
+    <mat-chip-grid #chipGrid aria-label="Ingresar etiquetas">
+      @for (label of labels(); track label) {
         <mat-chip-row
-          (removed)="remove(fruit)"
+          (removed)="remove(label)"
           [editable]="true"
-          (edited)="edit(fruit, $event)"
-          [aria-description]="'press enter to edit ' + fruit.name"
+          (edited)="edit(label, $event)"
+          [aria-description]="'press enter to edit ' + label.name"
         >
-          {{fruit.name}}
-          <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+          {{label.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + label.name">
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip-row>
@@ -54,13 +66,14 @@
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="addOnBlur"
         (matChipInputTokenEnd)="add($event)"
-        formControlName="labels"
         name="labels"
       />
     </mat-chip-grid>
   </mat-form-field>
 
   <div class="button-task">
-    <button mat-raised-button [disabled]="true" >Crear Tarea</button>
+    <button mat-raised-button (click)="sendForm()">
+      {{ isEditMode ? 'Actualizar Tarea' : 'Crear Tarea' }}
+    </button>
   </div>
 </form>

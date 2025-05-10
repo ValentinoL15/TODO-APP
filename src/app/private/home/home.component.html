@@ -12,4 +12,6 @@
   <mat-card-actions class="add-task">
     <button mat-flat-button (click)="openDialog()"> <mat-icon>add</mat-icon> Agregar Tarea</button>
   </mat-card-actions>
+
+  <app-task-list [tasks]="tasks$ | async" (editTask)="openEditDialog($event)"></app-task-list>
 </section>

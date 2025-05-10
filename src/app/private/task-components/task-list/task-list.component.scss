@@ -1,0 +1,167 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.task-card {
+    width: 300px;
+    padding: 1rem;
+    border-radius: 12px;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    .mat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mat-card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .priority-badge-status {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+
+            &.nueva {
+                background-color: #ff4d4d;
+            }
+
+            &.alta {
+                background-color: #ff9800;
+            }
+
+            &.media {
+                background-color: #ffeb3b;
+            }
+
+            &.baja {
+                background-color: #4caf50;
+            }
+        }
+
+        .text2 {
+            color: #f1f1f1;
+            text-transform: capitalize;
+            margin-left: 2px;
+        }
+    }
+
+    .priority-badge {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+
+            &.crítica {
+                background-color: #ff4d4d;
+            }
+
+            &.alta {
+                background-color: #ff9800;
+            }
+
+            &.media {
+                background-color: #ffeb3b;
+            }
+
+            &.baja {
+                background-color: #4caf50;
+            }
+        }
+
+        .text {
+            color: #f1f1f1;
+            text-transform: capitalize;
+        }
+    }
+
+    .tags {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        .tag {
+            background-color: #333;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: #f1f1f1;
+        }
+    }
+
+    mat-card-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+
+    p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 10px;
+}
+
+mat-card-title {
+    overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+}
+
+.no-description {
+    margin: 10px 0;
+    color: rgba(255, 255, 255, 0.5); // Blanco con opacidad
+    font-style: italic;
+}
+
+mat-card-header {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}

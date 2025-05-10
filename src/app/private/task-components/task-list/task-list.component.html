@@ -1,1 +1,41 @@
-<p>task-list works!</p>
+<section class="container">
+    @for(task of tasks; track task._id) {
+    <mat-card class="task-card">
+        <div class="priority-badge">
+            <span>Prioridad :</span>
+            <span class="dot" [ngClass]="task.priority.toLowerCase()"></span>
+            <span class="text">{{ task.priority }}</span>
+        </div>
+
+        <div class="priority-badge-status">
+            <span>Estado :</span>
+            <span class="text2">{{ task.state }}</span>
+
+        </div>
+        <mat-card-header>
+            <p class="title">{{ task.title }}</p>
+        </mat-card-header>
+
+        <mat-card-content>
+            @if (task.description){
+            <p>{{ task.description }}</p>
+            }
+            @else {
+            <p class="no-description">Agrega una descripción...</p>
+            }
+
+            <div class="tags">
+
+                @for(label of task.labels; track label) {
+                <span class="tag">{{ label.name }}</span>
+                }
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions class="card-actions">
+            <button mat-button (click)="onEdit(task)">Editar</button>
+            <button mat-button color="warn">Eliminar</button>
+        </mat-card-actions>
+    </mat-card>
+    }
+</section>
