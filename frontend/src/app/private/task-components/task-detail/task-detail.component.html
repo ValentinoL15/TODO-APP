@@ -1,6 +1,6 @@
- <div class="button">
-    <button mat-raised-button [routerLink]="'/home'">Volver</button>
- </div>
+<div class="button">
+  <button mat-raised-button [routerLink]="'/home'">Volver</button>
+</div>
 
 <ng-container *ngIf="task$ | async as task">
   <mat-card class="task-card">
@@ -25,5 +25,3 @@
     </div>
   </mat-card>
 </ng-container>
-
-

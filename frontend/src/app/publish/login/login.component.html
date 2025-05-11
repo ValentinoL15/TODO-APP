@@ -4,7 +4,7 @@
       <mat-card-title style="color: black;">TODO APP</mat-card-title>
       <mat-card-subtitle>App for Tasks</mat-card-subtitle>
     </mat-card-header>
-    <img class="image-login" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+    <img class="image-login" mat-card-image src="assets/img/imagen-task.jpg" width="250px" height="250px"
       alt="Photo of a Shiba Inu">
     <mat-card-content>
       <form class="form-login">
@@ -29,7 +29,8 @@
             <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
         </mat-form-field>
-        <p class="forgot-password" [ngClass]="{ 'margin-error': password.invalid && password.touched }" style="color: black;">¿Olvidaste tu
+        <p class="forgot-password" [ngClass]="{ 'margin-error': password.invalid && password.touched }"
+          style="color: black;">¿Olvidaste tu
           contraseña?</p>
       </form>
     </mat-card-content>

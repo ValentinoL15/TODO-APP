@@ -1,18 +1,13 @@
 <form class="task-form" [formGroup]="form">
   <mat-form-field>
     <mat-label>Titulo</mat-label>
-    <input
-      matInput
-      required
-      formControlName="title"
-      name="title"
-    />
+    <input matInput required formControlName="title" name="title" />
     @if(formSubmitted && !this.form.get('title')?.valid && this.form.get('title')?.touched) {
     <div class="custom-error">
       <mat-icon class="error-icon">error_outline</mat-icon>
       <span>El título es obligatorio</span>
     </div>
-  }
+    }
   </mat-form-field>
 
   <mat-form-field>
@@ -57,10 +52,10 @@
       </mat-option>
     </mat-select>
     @if(!this.form.get('priority')?.valid && this.form.get('priority')?.touched) {
-      <div class="custom-error">
-        <mat-icon class="error-icon">error_outline</mat-icon>
-        <span>La prioridad es obligatoria</span>
-      </div>
+    <div class="custom-error">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <span>La prioridad es obligatoria</span>
+    </div>
     }
   </mat-form-field>
 
@@ -68,26 +63,17 @@
     <mat-label>Etiquetas Personalizables</mat-label>
     <mat-chip-grid #chipGrid aria-label="Ingresar etiquetas">
       @for (label of labels(); track label) {
-        <mat-chip-row
-          (removed)="remove(label)"
-          [editable]="true"
-          (edited)="edit(label, $event)"
-          [aria-description]="'press enter to edit ' + label.name"
-        >
-          {{label.name}}
-          <button matChipRemove [attr.aria-label]="'remove ' + label.name">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+      <mat-chip-row (removed)="remove(label)" [editable]="true" (edited)="edit(label, $event)"
+        [aria-description]="'press enter to edit ' + label.name">
+        {{label.name}}
+        <button matChipRemove [attr.aria-label]="'remove ' + label.name">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
       }
-      <input
-        placeholder="Agregar Etiqueta"
-        [matChipInputFor]="chipGrid"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)"
-        name="labels"
-      />
+      <input placeholder="Agregar Etiqueta" [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)" name="labels" />
     </mat-chip-grid>
   </mat-form-field>
 

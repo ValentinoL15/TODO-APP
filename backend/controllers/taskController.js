@@ -9,41 +9,41 @@ const TaskModel = require('../models/taskModel.js')
 
 //DONE
 const getAllTasks = async (req, res) => {
-  try {
-    const { sortBy = 'createdAt', order = 'desc', state, priority, labels } = req.query;
+    try {
+        const { sortBy = 'createdAt', order = 'desc', state, priority, labels } = req.query;
 
-    // Construcción de filtros
-    let filter = {};
+        let filter = {};
+        const isFiltering = state || priority || labels; // Se está haciendo una búsqueda activa
 
-    if (state) {
-      filter.state = { $in: state.split(',') }; // Filtra por uno o varios estados
+        if (state) {
+            filter.state = { $in: state.split(',') };
+        }
+
+        if (priority) {
+            filter.priority = { $in: priority.split(',') };
+        }
+
+        if (labels) {
+            filter['labels.name'] = { $in: labels.split(',') };
+        }
+
+        const sortOrder = order === 'asc' ? 1 : -1;
+
+        const tasks = await TaskModel.find(filter).sort({ [sortBy]: sortOrder });
+
+        if (isFiltering && (!tasks || tasks.length === 0)) {
+            return res.status(404).json({ message: 'No se encontraron tareas con esos filtros' });
+        }
+
+        return res.status(200).json({ tasks });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Ocurrió un error obteniendo las tareas' });
     }
-
-    if (priority) {
-      filter.priority = { $in: priority.split(',') }; // Filtra por una o más prioridades
-    }
-
-    if (labels) {
-      filter.labels = { $in: labels.split(',') }; // Filtra por una o más etiquetas
-    }
-
-    const sortOrder = order === 'asc' ? 1 : -1; // ascendente o descendente
-
-    const tasks = await TaskModel.find(filter).sort({ [sortBy]: sortOrder });
-
-    if (!tasks || tasks.length === 0) {
-      return res.status(404).json({ message: 'No se encontraron tareas' });
-    }
-
-    return res.status(200).json({ tasks });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Ocurrió un error obteniendo las tareas' });
-  }
 };
 
 //DONE
-const createTask = async(req,res) => {
+const createTask = async (req, res) => {
     try {
         const { title, description, state, priority, labels } = req.body;
         const newTask = new TaskModel({
@@ -62,7 +62,7 @@ const createTask = async(req,res) => {
 }
 
 //DONE
-const getTaskById = async(req,res) => {
+const getTaskById = async (req, res) => {
     try {
         const { id } = req.params;
         const task = await TaskModel.findById(id);
@@ -77,7 +77,7 @@ const getTaskById = async(req,res) => {
 }
 
 //DONE
-const updateTask = async(req,res) => {
+const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, state, priority, labels } = req.body;
@@ -99,7 +99,7 @@ const updateTask = async(req,res) => {
 }
 
 //DONE
-const deleteTask = async(req,res) => {
+const deleteTask = async (req, res) => {
     try {
         const { id } = req.params;
         const task = await TaskModel.findByIdAndDelete(id);

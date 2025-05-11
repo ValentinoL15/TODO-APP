@@ -92,7 +92,7 @@ export class TaskFormComponent {
     priority: this.form.get('priority')?.value,
     state: this.form.get('state')?.value,
     labels: this.labels(),
-    _id: this.data?._id // importante para identificar si estamos editando
+    _id: this.data?._id 
   };
 
   this.formSubmitted = true;

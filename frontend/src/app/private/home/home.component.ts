@@ -133,12 +133,4 @@ onStateChange(selectedStates: string[]) {
     };
     this.fetchTasks();
   }
-
-  onLabelChange(selectedLabels: string[]) {
-    this.selectedFilters = {
-      ...this.selectedFilters,
-      labels: [...selectedLabels]
-    };
-    this.fetchTasks();
-  }
 }

@@ -20,8 +20,7 @@
 
         </div>
         <div class="eye">
-            <button mat-icon-button [routerLink]="['/task-detail', task._id]"
-                matTooltip="Ver detalles">
+            <button mat-icon-button [routerLink]="['/task-detail', task._id]" matTooltip="Ver detalles">
                 <mat-icon>visibility</mat-icon>
             </button>
         </div>
@@ -56,7 +55,7 @@
             </button>
         </mat-card-actions>
         <div class="card-footer">
-            <span>Created at {{ task.createdAt | date }}</span>
+            <span>Created at {{ task.createdAt | date }}</span><br>
             <span>Last Update at {{ task.updatedAt | date }}</span>
         </div>
 

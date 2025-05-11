@@ -28,14 +28,6 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="filter-field">
-        <mat-label>Etiquetas</mat-label>
-        <mat-select (selectionChange)="onLabelChange($event.value)" multiple>
-          <mat-option value="Urgente">Urgente</mat-option>
-          <mat-option value="Importante">Importante</mat-option>
-          <mat-option value="Personal">Personal</mat-option>
-        </mat-select>
-      </mat-form-field>
     </div>
 
     <!-- Parte derecha con botones -->
@@ -75,14 +67,6 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Etiquetas</mat-label>
-          <mat-select (selectionChange)="onLabelChange($event.value)" multiple>
-            <mat-option value="Urgente">Urgente</mat-option>
-            <mat-option value="Importante">Importante</mat-option>
-            <mat-option value="Personal">Personal</mat-option>
-          </mat-select>
-        </mat-form-field>
       </div>
     </div>
   </mat-toolbar>

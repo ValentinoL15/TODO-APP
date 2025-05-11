@@ -6,26 +6,19 @@
   height: 100%;
 }
 
-.image-login {
-  width: 100%;
-  height: auto;
-  max-width: 300px; 
-  margin-bottom: 20px; 
-}
-
 .card {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 
 .form-login {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px; 
-  padding: 20px; 
+  max-width: 400px;
+  padding: 20px;
 }
 
 .forgot-password {
@@ -37,9 +30,7 @@
   margin-top: 20px;
 }
 
-.button-enter{
+.button-enter {
   width: 230px;
   margin-bottom: 10px;
 }
-
-
