@@ -23,3 +23,27 @@ Despliegue:
 -Railway para el backend
 
 -Vercel para el frontend
+
+## 🚀 Instalación del Frontend (Angular)
+
+Para ejecutar el proyecto del frontend localmente, seguí estos pasos:
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/ValentinoL15/TODO-APP.git
+
+# Entrar al directorio del frontend
+cd TODO-APP
+
+# Instalar dependencias
+npm install
+
+# Iniciar el servidor de desarrollo
+ng serve
+```
+
+> Asegurate de tener instalados:
+> - Node.js (versión recomendada: 22.11.0 o superior)
+> - Angular CLI: `npm install -g @angular/cli`
+
+> El servidor estará disponible en: `http://localhost:4200`
