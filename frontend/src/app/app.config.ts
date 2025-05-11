@@ -11,20 +11,11 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { taskReducer } from './private/states/task.reducer';
 import { TaskEffects } from './private/states/task.effects';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideExperimentalZonelessChangeDetection(),
-    provideRouter(routes),
-    provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
-    provideAnimationsAsync(),
-    provideToastr(),
-    provideAnimations(),
-    provideStore({ tasks: taskReducer }),
-    provideEffects([TaskEffects]),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    { provide: LocationStrategy, useClass: HashLocationStrategy } // 👈 Esto es lo que agregás
-  ]
+  providers: [provideExperimentalZonelessChangeDetection(), provideRouter(routes), provideClientHydration(withEventReplay()),
+    
+    provideHttpClient(withFetch()), provideAnimationsAsync(), provideToastr(),
+    provideAnimations(), provideStore({ tasks: taskReducer }), provideEffects([TaskEffects]), provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })]
 };
