@@ -1,6 +1,17 @@
+<div class="delete-btn-container" *ngIf="hasSelectedTasks()">
+    <button mat-raised-button color="warn" (click)="deleteSelectedTasks()">
+        <mat-icon>delete</mat-icon>
+        Eliminar seleccionados
+    </button>
+</div>
 <section class="container">
     @for(task of tasks; track task._id) {
     <mat-card class="task-card">
+
+        <div class="checkbox-container">
+            <mat-checkbox [(ngModel)]="selectedTasksMap[task._id]" (click)="$event.stopPropagation()"
+                matTooltip="Seleccionar tarea"></mat-checkbox>
+        </div>
 
         <div class="priority-badge">
             <span>Prioridad :</span>
@@ -61,4 +72,5 @@
 
     </mat-card>
     }
+
 </section>

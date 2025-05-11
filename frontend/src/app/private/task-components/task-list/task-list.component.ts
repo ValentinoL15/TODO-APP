@@ -12,10 +12,12 @@ import { Store } from '@ngrx/store';
 import { ConfirmDialogComponent } from '../../../../utils/dialog.component';
 import { getTasksInitiate, updateTaskInitiate } from '../../states/task.actions';
 import { RouterLink } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCardModule, NgClass, CommonModule, MatIconModule, MatButtonModule, RouterLink],
+  imports: [MatCardModule, NgClass, CommonModule, MatIconModule, MatButtonModule, RouterLink, ReactiveFormsModule, FormsModule, MatCheckboxModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
   standalone: true,
@@ -34,25 +36,81 @@ export class TaskListComponent {
 
   constructor() { }
 
-  openDeleteDialog(id:any) {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    data: { message: '¿Estás seguro de que deseas eliminar esta tarjeta?' }
-  });
+  selectedTasksMap: { [taskId: string]: boolean } = {};
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.taskService.deleteTask(id).subscribe({
-        next: (res : any) => {
-          this.toastr.success(res.message)
+  hasSelectedTasks(): boolean {
+    return Object.values(this.selectedTasksMap).some(selected => selected);
+  }
+
+  deleteSelectedTasks(): void {
+    const selectedIds = Object.entries(this.selectedTasksMap)
+      .filter(([_, selected]) => selected)
+      .map(([id]) => id);
+
+    if (selectedIds.length === 0) return;
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: `¿Estás seguro de que deseas eliminar ${selectedIds.length} tareas?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        selectedIds.forEach(id => {
+          this.taskService.deleteTask(id).subscribe({
+            next: () => {
+              this.toastr.success('Tarea eliminada correctamente');
+              this.store.dispatch(getTasksInitiate({}));
+            },
+            error: (err: any) => {
+              this.toastr.error(err.message || 'Error al eliminar tarea');
+            }
+          });
+        });
+
+        // Limpiar selección después de eliminar
+        this.selectedTasksMap = {};
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  deleteTask(taskId: string): void {
+    const confirmDelete = confirm('¿Estás seguro de que querés eliminar esta tarea?');
+
+    if (confirmDelete) {
+      this.taskService.deleteTask(taskId).subscribe({
+        next: () => {
+          this.tasks = this.tasks.filter(task => task._id !== taskId);
           this.store.dispatch(getTasksInitiate({}))
         },
-        error: (err : any) => {
-          this.toastr.error(err.message, 'Error')
+        error: (err) => {
+          console.error('Error eliminando la tarea', err);
+          // Mostrar algún mensaje al usuario si querés
         }
-      })
+      });
     }
-  });
-}
+  }
+
+
+  openDeleteDialog(id: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: '¿Estás seguro de que deseas eliminar esta tarjeta?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.deleteTask(id).subscribe({
+          next: (res: any) => {
+            this.toastr.success(res.message)
+            this.store.dispatch(getTasksInitiate({}))
+          },
+          error: (err: any) => {
+            this.toastr.error(err.message, 'Error')
+          }
+        })
+      }
+    });
+  }
 
   onEdit(task: any) {
     this.editTask.emit(task);
