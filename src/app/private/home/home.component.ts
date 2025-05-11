@@ -12,13 +12,13 @@ import { TaskListComponent } from '../task-components/task-list/task-list.compon
 import { Store } from '@ngrx/store';
 import { getTasksInitiate } from '../states/task.actions';
 import { Observable } from 'rxjs';
-import { Task } from '../../interfaces';
 import { getTasks } from '../states/task.selector';
 import { CommonModule } from '@angular/common';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-home',
-  imports: [MatToolbarModule,MatIconModule, RouterLink,MatButtonModule,MatCardModule, MatFormFieldModule, MatInputModule,MatDialogModule, TaskListComponent, CommonModule],
+  imports: [MatToolbarModule,MatIconModule, RouterLink,MatButtonModule,MatCardModule, MatFormFieldModule, MatInputModule,MatDialogModule, TaskListComponent, CommonModule,MatSelectModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   standalone: true,
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit{
   constructor() { }
 
   ngOnInit(): void {
-    this.store.dispatch(getTasksInitiate())
+    this.store.dispatch(getTasksInitiate({}))
   }
 
   openDialog() {
@@ -63,7 +63,12 @@ export class HomeComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('Resultado del dialog:', result);
-      // Podrías actualizar la lista si se necesita
+      this.store.dispatch(getTasksInitiate({}))
     });
   }
+
+  onSortChange(value: string) {
+  const [sortBy, order] = value.split('_');
+  this.store.dispatch(getTasksInitiate({ sortBy, order: order as 'asc' | 'desc' }));
+}
 }

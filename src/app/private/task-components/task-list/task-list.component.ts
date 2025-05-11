@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { Store } from '@ngrx/store';
 import { ConfirmDialogComponent } from '../../../../utils/dialog.component';
-import { getTasksInitiate } from '../../states/task.actions';
+import { getTasksInitiate, updateTaskInitiate } from '../../states/task.actions';
 
 @Component({
   selector: 'app-task-list',
@@ -43,12 +43,11 @@ export class TaskListComponent {
       this.taskService.deleteTask(id).subscribe({
         next: (res : any) => {
           this.toastr.success(res.message)
-          this.store.dispatch(getTasksInitiate())
+          this.store.dispatch(getTasksInitiate({}))
         },
         error: (err : any) => {
           this.toastr.error(err.message, 'Error')
         }
-
       })
     }
   });
@@ -67,12 +66,10 @@ export class TaskListComponent {
   }
 
   onEdit(task: any) {
-    console.log('Tarea enviada al editar:', task);
     this.editTask.emit(task);
   }
 
   openEditDialog(task: any): void {
-
     const dialogRef = this.dialog.open(TaskFormComponent, {
       width: '500px',
       data: task,
@@ -80,7 +77,7 @@ export class TaskListComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        //this.store.dispatch(updateTaskInitiate({ task: result }));
+        this.store.dispatch(updateTaskInitiate({ task: result }));
       }
     });
   }

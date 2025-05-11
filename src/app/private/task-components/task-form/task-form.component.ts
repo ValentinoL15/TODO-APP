@@ -86,31 +86,47 @@ export class TaskFormComponent {
   }
 
   sendForm() {
-    const formulario = {
-      title: this.form.get('title')?.value,
-      description: this.form.get('description')?.value,
-      priority: this.form.get('priority')?.value,
-      state: this.form.get('state')?.value,
-      labels: this.labels()
-    }
-    
-    this.formSubmitted = true;
-    
-    if (this.form.valid) {
+  const formulario = {
+    title: this.form.get('title')?.value,
+    description: this.form.get('description')?.value,
+    priority: this.form.get('priority')?.value,
+    state: this.form.get('state')?.value,
+    labels: this.labels(),
+    _id: this.data?._id // importante para identificar si estamos editando
+  };
+
+  this.formSubmitted = true;
+
+  if (this.form.valid) {
+    if (formulario._id) {
+      // Modo edición
+      this.taskService.updateTask(formulario._id,formulario).subscribe({
+        next: (res: any) => {
+          this.dialogRef.close(formulario);
+          this.toastr.success(res.message);
+          this.state.dispatch(getTasksInitiate({}));
+        },
+        error: (err: any) => {
+          this.toastr.error('Error al actualizar la tarea');
+        }
+      });
+    } else {
+      // Modo creación
       this.taskService.createTask(formulario).subscribe({
         next: (res: any) => {
-          this.form.reset()
+          this.form.reset();
           this.dialogRef.close(res);
-          this.toastr.success(res.message, 'Tarea creada')
-          this.state.dispatch(getTasksInitiate())
+          this.toastr.success(res.message, 'Tarea creada');
+          this.state.dispatch(getTasksInitiate({}));
         },
         error: (err: any) => {
           console.log(err);
-          this.toastr.error('Error al crear la tarea', 'Error')
+          this.toastr.error('Error al crear la tarea', 'Error');
         }
-      })
+      });
     }
   }
+}
 
   cancel() {
     this.dialogRef.close();

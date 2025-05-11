@@ -141,6 +141,59 @@
     }
 }
 
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .icon-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+
+  .blue-bg {
+    background-color: #1976d2; // Azul Material
+  }
+
+  .red-bg {
+    background-color: #d32f2f; // Rojo Material
+  }
+
+  .blue-bg:hover {
+    background-color: #1565c0;
+  }
+
+  .red-bg:hover {
+    background-color: #c62828;
+  }
+}
+
+.icon-button[disabled] {
+  opacity: 0.5;  
+  cursor: not-allowed;  
+}
+
+ .card-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 12px;
+    color: #777;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
 .title {
     font-size: 1.2rem;
     font-weight: bold;

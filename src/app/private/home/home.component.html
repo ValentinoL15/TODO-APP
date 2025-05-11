@@ -9,9 +9,27 @@
 </header>
 
 <section class="container">
-  <mat-card-actions class="add-task">
-    <button mat-flat-button (click)="openDialog()"> <mat-icon>add</mat-icon> Agregar Tarea</button>
-  </mat-card-actions>
+ <mat-card-actions class="add-task-bar">
+  <ng-container *ngIf="tasks$ | async as tasks">
+    <div class="actions-wrapper">
+      <div class="order-select" *ngIf="tasks.length >= 2">
+        <mat-form-field appearance="fill">
+          <mat-label>Ordenar por</mat-label>
+          <mat-select (selectionChange)="onSortChange($event.value)">
+            <mat-option value="createdAt_desc">Más nuevo</mat-option>
+            <mat-option value="createdAt_asc">Más viejo</mat-option>
+            <mat-option value="priority_asc">Prioridad (ascendente)</mat-option>
+            <mat-option value="priority_desc">Prioridad (descendente)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button color="accent" (click)="openDialog()" class="add-button">
+        <mat-icon>add</mat-icon> Agregar Tarea
+      </button>
+    </div>
+  </ng-container>
+</mat-card-actions>
 
   <app-task-list [tasks]="tasks$ | async" (editTask)="openEditDialog($event)"></app-task-list>
 </section>

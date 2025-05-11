@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../../interfaces';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,11 +12,15 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(`${this.API_URL}/get-tasks`);
+  getTasks(sortBy: string = 'createdAt', order: 'asc' | 'desc' = 'desc'): Observable<Task[]> {
+    const params = new HttpParams()
+      .set('sortBy', sortBy)
+      .set('order', order);
+
+    return this.http.get<Task[]>(`${this.API_URL}/get-tasks`, { params });
   }
 
-  getTask(id:string): Observable<Task> {
+  getTask(id:any): Observable<Task> {
     return this.http.get<Task>(`${this.API_URL}/get-task/${id}`);
   }
 

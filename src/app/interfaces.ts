@@ -4,10 +4,12 @@ export interface User {
 }
 
 export interface Task {
-  _id?: string,
+  _id?: any,
   title: string;
   description: string;
   priority: string;
   state: string;
   labels: { name: string }[];
+  createdAt?: string;
+  updatedAt?: string;
 }

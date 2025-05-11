@@ -20,6 +20,26 @@
     <textarea matInput formControlName="description" name="description"></textarea>
   </mat-form-field>
 
+  @if(data?._id) {
+  <mat-form-field>
+    <mat-label>Estado de Tarea</mat-label>
+    <mat-select formControlName="state" name="state">
+      <mat-option value="Nueva">
+        Nueva
+      </mat-option>
+      <mat-option value="En progreso">
+        En progreso
+      </mat-option>
+      <mat-option value="Bloqueada">
+        Bloqueada
+      </mat-option>
+      <mat-option value="Finalizada">
+        Finalizada
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  }
+
   <mat-form-field>
     <mat-label>Prioridad</mat-label>
     <mat-select formControlName="priority" name="priority">
