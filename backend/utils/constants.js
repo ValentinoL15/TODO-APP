@@ -1,0 +1,15 @@
+// MICROSERVICE
+const MICROSERVICE_NAME = 'TODO-APP'
+
+// PLATFORM
+const PLATFORM_NAME = 'TODO-APP';
+
+// ZONA HORARIA
+const TIMEZONE = 'America/Santiago';
+
+module.exports = {
+    MICROSERVICE_NAME,
+    PLATFORM_NAME,
+    TIMEZONE,
+   
+};

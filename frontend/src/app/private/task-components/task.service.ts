@@ -31,13 +31,11 @@ export class TaskService {
 
     return this.http.get<Task[]>(`${this.API_URL}/get-tasks`, { params });
   }
-getTaskById(id: string): void {
-  this.http.get<{ task: Task }>(`${this.API_URL}/get-task/${id}`).subscribe(response => {
-    console.log('Tarea obtenida:', response.task); // Ahora se ve solo la tarea
-    this.taskSubject.next(response.task); // ⬅️ Emitimos solo el objeto de la tarea
-  });
-}
-
+  getTaskById(id: string): void {
+    this.http.get<{ task: Task }>(`${this.API_URL}/get-task/${id}`).subscribe(response => {
+      this.taskSubject.next(response.task);
+    });
+  }
 
   createTask(task: Task): Observable<Task> {
     return this.http.post<Task>(`${this.API_URL}/create-task`, task);
