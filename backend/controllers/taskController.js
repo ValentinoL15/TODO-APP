@@ -13,7 +13,7 @@ const getAllTasks = async (req, res) => {
         const { sortBy = 'createdAt', order = 'desc', state, priority, labels } = req.query;
 
         let filter = {};
-        const isFiltering = state || priority || labels; // Se está haciendo una búsqueda activa
+        const isFiltering = state || priority || labels;
 
         if (state) {
             filter.state = { $in: state.split(',') };
