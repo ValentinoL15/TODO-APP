@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
+  //API_URL = "https://todo-app-service.railway.internal"
   API_URL = "http://localhost:4000/api/todo-app"
 
   private taskSubject: BehaviorSubject<Task | null> = new BehaviorSubject<Task | null>(null);  // BehaviorSubject para una tarea específica
