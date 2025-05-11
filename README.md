@@ -95,8 +95,19 @@ TODO-APP/
 
 ## 🌐 Despliegue
 
-- [Frontend en Vercel](https://todoapp.vercel.app)  
-- [Backend en Railway](https://todoapp-backend.up.railway.app)
+- [Frontend en Vercel](https://todo-app-sigma-gilt-45.vercel.app)  
+- [Backend en Railway](https://todo-app-production-95bd.up.railway.app)
+
+---
+
+## 🧪 Usuario de Prueba
+
+Puedes acceder rápidamente a la aplicación con el siguiente usuario de prueba:
+
+- 📧 **Email:** `user@gmail.com`  
+- 🔐 **Contraseña:** `usuario123`
+
+> Ideal para explorar la app sin necesidad de registrarte.
 
 ---
 
