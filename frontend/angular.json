@@ -12,15 +12,15 @@
         }
       },
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "/frontend/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/todo-app",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "/frontend/src/index.html",
+            "browser": "frontend/src/main.ts",
             "polyfills": [
               
             ],
