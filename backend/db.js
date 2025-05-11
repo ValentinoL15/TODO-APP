@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const connectToDatabase = (databaseuri) => {
+const connectToDatabase = () => {
     return new Promise((resolve, reject) => {
         mongoose.connect(process.env.DATABASE_URI)
             .then(() => {
