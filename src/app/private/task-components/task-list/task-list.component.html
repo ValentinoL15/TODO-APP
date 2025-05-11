@@ -1,6 +1,7 @@
 <section class="container">
     @for(task of tasks; track task._id) {
     <mat-card class="task-card">
+
         <div class="priority-badge">
             <span>Prioridad :</span>
             <span class="dot" [ngClass]="task.priority.toLowerCase()"></span>
@@ -8,15 +9,22 @@
         </div>
 
         <div class="priority-badge-status">
-        
-        <span class="status-icon">
-          <mat-icon *ngIf="task.state === 'Nueva'">description</mat-icon>
-          <mat-icon *ngIf="task.state === 'En progreso'">play_arrow</mat-icon>
-          <mat-icon *ngIf="task.state === 'Bloqueada'">block</mat-icon>
-          <mat-icon *ngIf="task.state === 'Finalizada'">check_circle</mat-icon>
-        </span>
-        <span class="text2">{{ task.state }}</span>
-      </div>
+
+            <span class="status-icon">
+                <mat-icon *ngIf="task.state === 'Nueva'">description</mat-icon>
+                <mat-icon *ngIf="task.state === 'En progreso'">play_arrow</mat-icon>
+                <mat-icon *ngIf="task.state === 'Bloqueada'">block</mat-icon>
+                <mat-icon *ngIf="task.state === 'Finalizada'">check_circle</mat-icon>
+            </span>
+            <span class="text2">{{ task.state }}</span>
+
+        </div>
+        <div class="eye">
+            <button mat-icon-button [routerLink]="['/task-detail', task._id]"
+                matTooltip="Ver detalles">
+                <mat-icon>visibility</mat-icon>
+            </button>
+        </div>
         <mat-card-header>
             <p class="title">{{ task.title }}</p>
         </mat-card-header>
@@ -38,18 +46,20 @@
         </mat-card-content>
 
         <mat-card-actions class="card-actions">
-            <button mat-icon-button class="icon-button blue-bg" [disabled]="task.state === 'Finalizada'" (click)="onEdit(task)" matTooltip="Editar">
+            <button mat-icon-button class="icon-button blue-bg" [disabled]="task.state === 'Finalizada'"
+                (click)="onEdit(task)" matTooltip="Editar">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="icon-button red-bg" (click)="openDeleteDialog(task._id)" matTooltip="Eliminar">
+            <button mat-icon-button class="icon-button red-bg" (click)="openDeleteDialog(task._id)"
+                matTooltip="Eliminar">
                 <mat-icon>delete</mat-icon>
             </button>
         </mat-card-actions>
-<div class="card-footer">
-    <span>Created at {{ task.createdAt | date }}</span>
-    <span>Last Update at {{ task.updatedAt | date }}</span>
-  </div>
-        
+        <div class="card-footer">
+            <span>Created at {{ task.createdAt | date }}</span>
+            <span>Last Update at {{ task.updatedAt | date }}</span>
+        </div>
+
     </mat-card>
     }
 </section>

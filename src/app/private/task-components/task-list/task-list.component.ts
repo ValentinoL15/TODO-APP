@@ -11,10 +11,11 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 import { Store } from '@ngrx/store';
 import { ConfirmDialogComponent } from '../../../../utils/dialog.component';
 import { getTasksInitiate, updateTaskInitiate } from '../../states/task.actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
-  imports: [MatCardModule, NgClass, CommonModule, MatIconModule, MatButtonModule],
+  imports: [MatCardModule, NgClass, CommonModule, MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
   standalone: true,
@@ -52,18 +53,6 @@ export class TaskListComponent {
     }
   });
 }
-
-  getTasks() {
-    this.taskService.getTasks().subscribe({
-      next: (res: any) => {
-        this.tasks = res.tasks
-        this.cdr.detectChanges()
-      },
-      error: (err: any) => {
-        this.toastr.error(err.message, 'Error')
-      }
-    })
-  }
 
   onEdit(task: any) {
     this.editTask.emit(task);

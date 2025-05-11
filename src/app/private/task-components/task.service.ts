@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../../interfaces';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +10,34 @@ export class TaskService {
 
   API_URL = "http://localhost:4000/api/todo-app"
 
+  private taskSubject: BehaviorSubject<Task | null> = new BehaviorSubject<Task | null>(null);  // BehaviorSubject para una tarea específica
+  public task$: Observable<Task | null> = this.taskSubject.asObservable();
+
   constructor(private http: HttpClient) { }
 
-  getTasks(sortBy: string = 'createdAt', order: 'asc' | 'desc' = 'desc'): Observable<Task[]> {
-    const params = new HttpParams()
-      .set('sortBy', sortBy)
-      .set('order', order);
+  getTasks(sortBy: string, order: 'asc' | 'desc', filters: { state?: string[]; priority?: string[]; labels?: string[] }) {
+    let params = new HttpParams().set('sortBy', sortBy).set('order', order);
+
+    // Agregamos los filtros al HttpParams
+    if (filters.state) {
+      params = params.set('state', filters.state.join(','));
+    }
+    if (filters.priority) {
+      params = params.set('priority', filters.priority.join(','));
+    }
+    if (filters.labels) {
+      params = params.set('labels', filters.labels.join(','));
+    }
 
     return this.http.get<Task[]>(`${this.API_URL}/get-tasks`, { params });
   }
+getTaskById(id: string): void {
+  this.http.get<{ task: Task }>(`${this.API_URL}/get-task/${id}`).subscribe(response => {
+    console.log('Tarea obtenida:', response.task); // Ahora se ve solo la tarea
+    this.taskSubject.next(response.task); // ⬅️ Emitimos solo el objeto de la tarea
+  });
+}
 
-  getTask(id:any): Observable<Task> {
-    return this.http.get<Task>(`${this.API_URL}/get-task/${id}`);
-  }
 
   createTask(task: Task): Observable<Task> {
     return this.http.post<Task>(`${this.API_URL}/create-task`, task);

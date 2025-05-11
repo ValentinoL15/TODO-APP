@@ -31,11 +31,53 @@ export class HomeComponent implements OnInit{
   readonly store = inject(Store)
 
   tasks$: Observable<any> = this.store.select(getTasks);
+filtersVisible = false;
+
+toggleFilters() {
+  this.filtersVisible = !this.filtersVisible;
+  
+  // Bloquear/desbloquear scroll del body
+  if (this.filtersVisible) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}
+
+closeFilters(event: Event) {
+  if (event.target === event.currentTarget) {
+    this.toggleFilters();
+  }
+}
+
+  selectedFilters: {
+  state: string[];
+  priority: string[];
+  labels: string[];
+} = {
+  state: [],
+  priority: [],
+  labels: []
+};
 
   constructor() { }
 
   ngOnInit(): void {
-    this.store.dispatch(getTasksInitiate({}))
+     this.fetchTasks();
+  }
+
+    fetchTasks() {
+    this.store.dispatch(getTasksInitiate({
+      filters: {
+        state: [...this.selectedFilters.state],
+        priority: [...this.selectedFilters.priority],
+        labels: [...this.selectedFilters.labels]
+      }
+    }));
+  }
+
+  onFilterChange() {
+    this.fetchTasks(); // Actualizar tareas cuando cambian los filtros
   }
 
   openDialog() {
@@ -67,8 +109,36 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  onSortChange(value: string) {
-  const [sortBy, order] = value.split('_');
-  this.store.dispatch(getTasksInitiate({ sortBy, order: order as 'asc' | 'desc' }));
-}
+onSortChange(value: string) {
+    const [sortBy, order] = value.split('_');
+    this.store.dispatch(getTasksInitiate({
+      sortBy,
+      order: order as 'asc' | 'desc',
+    }));
+  }
+
+
+onStateChange(selectedStates: string[]) {
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      state: [...selectedStates]
+    };
+    this.fetchTasks();
+  }
+
+  onPriorityChange(selectedPriorities: string[]) {
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      priority: [...selectedPriorities]
+    };
+    this.fetchTasks();
+  }
+
+  onLabelChange(selectedLabels: string[]) {
+    this.selectedFilters = {
+      ...this.selectedFilters,
+      labels: [...selectedLabels]
+    };
+    this.fetchTasks();
+  }
 }

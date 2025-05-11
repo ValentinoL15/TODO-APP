@@ -1,1 +1,29 @@
-<p>task-detail works!</p>
+ <div class="button">
+    <button mat-raised-button [routerLink]="'/home'">Volver</button>
+ </div>
+
+<ng-container *ngIf="task$ | async as task">
+  <mat-card class="task-card">
+    <div class="card-header">
+      <h2 class="task-title">{{ task.title }}</h2>
+      <mat-chip class="state-chip" color="primary" selected>{{ task.state }}</mat-chip>
+    </div>
+
+    <p class="task-description">{{ task.description }}</p>
+
+    <div class="info-row">
+      <div class="priority">
+        <span class="label">Prioridad:</span>
+        <span class="dot"></span>
+        <span class="value">{{ task.priority }}</span>
+      </div>
+
+      <div class="created-date">
+        <span class="label">Creada:</span>
+        <span class="value">{{ task.createdAt | date:'fullDate' }}</span>
+      </div>
+    </div>
+  </mat-card>
+</ng-container>
+
+

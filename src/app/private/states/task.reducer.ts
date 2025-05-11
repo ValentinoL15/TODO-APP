@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { getTasksSuccess, getTasksFailure, updateTaskSuccess, updateTaskFailure } from '../states/task.actions';
+import { getTasksSuccess, getTasksFailure, updateTaskSuccess, updateTaskFailure, getTaskByIdSuccess } from '../states/task.actions';
 import { Task } from '../../interfaces';
 
 export interface TaskState {
@@ -33,5 +33,5 @@ export const taskReducer = createReducer(
   on(updateTaskFailure, (state, { error }) => ({
     ...state,
     error,
-  }))
+  })),
 );

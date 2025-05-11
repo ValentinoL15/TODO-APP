@@ -1,35 +1,114 @@
 <header class="header">
-  <mat-toolbar class="header" color="primary">
-    <div style="display: flex; align-items: center; gap: 5px;">
+  <mat-toolbar class="toolbar" color="primary">
+    <!-- Parte izquierda con logo -->
+    <div class="header-left">
       <mat-icon>assignment</mat-icon>
       <span class="title">TODO APP</span>
     </div>
-    <mat-icon class="go-out-button" mat-button routerLink="/login" >logout</mat-icon>
-  </mat-toolbar>
-</header>
 
-<section class="container">
- <mat-card-actions class="add-task-bar">
-  <ng-container *ngIf="tasks$ | async as tasks">
-    <div class="actions-wrapper">
-      <div class="order-select" *ngIf="tasks.length >= 2">
+    <!-- Contenedor principal de filtros (visible en Computadoras) -->
+    <div class="filters-desktop">
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Estado</mat-label>
+        <mat-select (selectionChange)="onStateChange($event.value)" multiple>
+          <mat-option value="Nueva">Nueva</mat-option>
+          <mat-option value="En progreso">En progreso</mat-option>
+          <mat-option value="Bloqueada">Bloqueada</mat-option>
+          <mat-option value="Finalizada">Completada</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Prioridad</mat-label>
+        <mat-select (selectionChange)="onPriorityChange($event.value)" multiple>
+          <mat-option value="Baja">Baja</mat-option>
+          <mat-option value="Media">Media</mat-option>
+          <mat-option value="Alta">Alta</mat-option>
+          <mat-option value="Crítica">Crítica</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Etiquetas</mat-label>
+        <mat-select (selectionChange)="onLabelChange($event.value)" multiple>
+          <mat-option value="Urgente">Urgente</mat-option>
+          <mat-option value="Importante">Importante</mat-option>
+          <mat-option value="Personal">Personal</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Parte derecha con botones -->
+    <div class="header-right">
+      <!-- Botón de filtros para móvil -->
+      <button mat-icon-button (click)="toggleFilters()" class="filter-toggle">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      
+      <!-- Botón de logout -->
+      <mat-icon class="go-out-button" mat-button routerLink="/login">logout</mat-icon>
+    </div>
+
+    <!-- Filtros para móvil -->
+   <div class="filters-mobile" [class.visible]="filtersVisible" (click)="closeFilters($event)">
+      <div class="mobile-filters-container" (click)="$event.stopPropagation()">
+        <button mat-icon-button class="close-button" (click)="toggleFilters()">
+      <mat-icon>close</mat-icon>
+    </button>
         <mat-form-field appearance="fill">
-          <mat-label>Ordenar por</mat-label>
-          <mat-select (selectionChange)="onSortChange($event.value)">
-            <mat-option value="createdAt_desc">Más nuevo</mat-option>
-            <mat-option value="createdAt_asc">Más viejo</mat-option>
-            <mat-option value="priority_asc">Prioridad (ascendente)</mat-option>
-            <mat-option value="priority_desc">Prioridad (descendente)</mat-option>
+          <mat-label>Estado</mat-label>
+          <mat-select (selectionChange)="onStateChange($event.value)" multiple>
+            <mat-option value="Nueva">Nueva</mat-option>
+            <mat-option value="En progreso">En progreso</mat-option>
+            <mat-option value="Bloqueada">Bloqueada</mat-option>
+            <mat-option value="Finalizada">Completada</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Prioridad</mat-label>
+          <mat-select (selectionChange)="onPriorityChange($event.value)" multiple>
+            <mat-option value="Baja">Baja</mat-option>
+            <mat-option value="Media">Media</mat-option>
+            <mat-option value="Alta">Alta</mat-option>
+            <mat-option value="Crítica">Crítica</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Etiquetas</mat-label>
+          <mat-select (selectionChange)="onLabelChange($event.value)" multiple>
+            <mat-option value="Urgente">Urgente</mat-option>
+            <mat-option value="Importante">Importante</mat-option>
+            <mat-option value="Personal">Personal</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-
-      <button mat-flat-button color="accent" (click)="openDialog()" class="add-button">
-        <mat-icon>add</mat-icon> Agregar Tarea
-      </button>
     </div>
-  </ng-container>
-</mat-card-actions>
+  </mat-toolbar>
+</header>
+<section class="container">
+  <mat-card-actions class="add-task-bar">
+    <ng-container *ngIf="tasks$ | async as tasks">
+      <div class="actions-wrapper">
+        <div class="order-select" *ngIf="tasks.length >= 2">
+          <mat-form-field appearance="fill">
+            <mat-label>Ordenar por</mat-label>
+            <mat-select (selectionChange)="onSortChange($event.value)">
+              <mat-option value="createdAt_desc">Más nuevo</mat-option>
+              <mat-option value="createdAt_asc">Más viejo</mat-option>
+              <mat-option value="priority_asc">Prioridad (ascendente)</mat-option>
+              <mat-option value="priority_desc">Prioridad (descendente)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button color="accent" (click)="openDialog()" class="add-button">
+          <mat-icon>add</mat-icon> Agregar Tarea
+        </button>
+      </div>
+    </ng-container>
+  </mat-card-actions>
 
   <app-task-list [tasks]="tasks$ | async" (editTask)="openEditDialog($event)"></app-task-list>
 </section>
