@@ -7,63 +7,69 @@
     </div>
 
     <!-- Contenedor principal de filtros (visible en Computadoras) -->
-    <div class="filters-desktop">
-      <mat-form-field appearance="fill" class="filter-field">
-        <mat-label>Estado</mat-label>
-        <mat-select (selectionChange)="onStateChange($event.value)" multiple>
-          <mat-option value="Nueva">Nueva</mat-option>
-          <mat-option value="En progreso">En progreso</mat-option>
-          <mat-option value="Bloqueada">Bloqueada</mat-option>
-          <mat-option value="Finalizada">Completada</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <ng-container *ngIf="tasks$ | async as tasks">
+      <div class="filters-desktop" *ngIf="tasks.length >= 1">
+        <mat-form-field appearance="fill" class="filter-field">
+          <mat-label>Estado</mat-label>
+          <mat-select (selectionChange)="onStateChange($event.value)" multiple>
+            <mat-option value="Nueva" [disabled]="!stateCounts['Nueva']">Nueva</mat-option>
+            <mat-option value="En progreso" [disabled]="!stateCounts['En progreso']">En progreso</mat-option>
+            <mat-option value="Bloqueada" [disabled]="!stateCounts['Bloqueada']">Bloqueada</mat-option>
+            <mat-option value="Finalizada" [disabled]="!stateCounts['Finalizada']">Finalizada</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="filter-field">
-        <mat-label>Prioridad</mat-label>
-        <mat-select (selectionChange)="onPriorityChange($event.value)" multiple>
-          <mat-option value="Baja">Baja</mat-option>
-          <mat-option value="Media">Media</mat-option>
-          <mat-option value="Alta">Alta</mat-option>
-          <mat-option value="Crítica">Crítica</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <mat-form-field appearance="fill" class="filter-field">
+  <mat-label>Prioridad</mat-label>
+  <mat-select (selectionChange)="onPriorityChange($event.value)" multiple>
+    <mat-option value="Baja" [disabled]="!priorityCounts['Baja']">Baja</mat-option>
+    <mat-option value="Media" [disabled]="!priorityCounts['Media']">Media</mat-option>
+    <mat-option value="Alta" [disabled]="!priorityCounts['Alta']">Alta</mat-option>
+    <mat-option value="Crítica" [disabled]="!priorityCounts['Crítica']">Crítica</mat-option>
+  </mat-select>
+</mat-form-field>
 
-    </div>
+      </div>
+    </ng-container>
+
 
     <!-- Parte derecha con botones -->
     <div class="header-right">
       <!-- Botón de filtros para móvil -->
-      <button mat-icon-button (click)="toggleFilters()" class="filter-toggle">
-        <mat-icon>filter_list</mat-icon>
-      </button>
-      
+      <ng-container *ngIf="tasks$ | async as tasks">
+        <button mat-icon-button *ngIf="tasks.length >= 1" (click)="toggleFilters()" class="filter-toggle">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </ng-container>
+
+
       <!-- Botón de logout -->
       <mat-icon class="go-out-button" mat-button routerLink="/login">logout</mat-icon>
     </div>
 
     <!-- Filtros para móvil -->
-   <div class="filters-mobile" [class.visible]="filtersVisible" (click)="closeFilters($event)">
+    <div class="filters-mobile" [class.visible]="filtersVisible" (click)="closeFilters($event)">
       <div class="mobile-filters-container" (click)="$event.stopPropagation()">
         <button mat-icon-button class="close-button" (click)="toggleFilters()">
-      <mat-icon>close</mat-icon>
-    </button>
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-form-field appearance="fill">
           <mat-label>Estado</mat-label>
           <mat-select (selectionChange)="onStateChange($event.value)" multiple>
-            <mat-option value="Nueva">Nueva</mat-option>
-            <mat-option value="En progreso">En progreso</mat-option>
-            <mat-option value="Bloqueada">Bloqueada</mat-option>
-            <mat-option value="Finalizada">Completada</mat-option>
+            <mat-option value="Nueva" [disabled]="!stateCounts['Nueva']">Nueva</mat-option>
+            <mat-option value="En progreso" [disabled]="!stateCounts['En progreso']">En progreso</mat-option>
+            <mat-option value="Bloqueada" [disabled]="!stateCounts['Bloqueada']">Bloqueada</mat-option>
+            <mat-option value="Finalizada" [disabled]="!stateCounts['Finalizada']">Completada</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="filter-field">
           <mat-label>Prioridad</mat-label>
           <mat-select (selectionChange)="onPriorityChange($event.value)" multiple>
-            <mat-option value="Baja">Baja</mat-option>
-            <mat-option value="Media">Media</mat-option>
-            <mat-option value="Alta">Alta</mat-option>
-            <mat-option value="Crítica">Crítica</mat-option>
+            <mat-option value="Baja" [disabled]="!priorityCounts['Baja']">Baja</mat-option>
+            <mat-option value="Media" [disabled]="!priorityCounts['Media']">Media</mat-option>
+            <mat-option value="Alta" [disabled]="!priorityCounts['Alta']">Alta</mat-option>
+            <mat-option value="Crítica" [disabled]="!priorityCounts['Crítica']">Crítica</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -75,7 +81,7 @@
   <mat-card-actions class="add-task-bar">
     <ng-container *ngIf="tasks$ | async as tasks">
       <div class="actions-wrapper">
-        <div class="order-select" *ngIf="tasks.length >= 2">
+        <div class="order-select" *ngIf="tasks.length >= 1">
           <mat-form-field appearance="fill">
             <mat-label>Ordenar por</mat-label>
             <mat-select (selectionChange)="onSortChange($event.value)">

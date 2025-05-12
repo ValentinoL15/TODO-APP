@@ -91,7 +91,6 @@ export class TaskListComponent {
     }
   }
 
-
   openDeleteDialog(id: any) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { message: '¿Estás seguro de que deseas eliminar esta tarjeta?' }
