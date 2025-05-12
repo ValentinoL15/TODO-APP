@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('Resultado del dialog:', result);
-      this.store.dispatch(getTasksInitiate({}))
+      this.fetchTasks();
     });
   }
 
