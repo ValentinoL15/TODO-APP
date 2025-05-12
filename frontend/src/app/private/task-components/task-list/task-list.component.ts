@@ -115,17 +115,4 @@ export class TaskListComponent {
     this.editTask.emit(task);
   }
 
-  openEditDialog(task: any): void {
-    const dialogRef = this.dialog.open(TaskFormComponent, {
-      width: '500px',
-      data: task,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.store.dispatch(updateTaskInitiate({ task: result }));
-      }
-    });
-  }
-
 }
